@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>用户考试模块</title>
+    <link rel="stylesheet" href="/layui/css/layui.css">
+    <link href="/css/exam.css" rel="stylesheet">
+    <style>
+        #title{
+            margin-top: 150px;
+            margin-left: 680px;
+            font-size: 30px;
+
+        }
+        #layout{
+            margin-top: 70px;
+            margin-left: 520px;
+        }
+    </style>
+</head>
+<body>
+    <p id="title" class="t-text" style="color: rgb(53, 212, 143);">
+        在线考试系统
+    </p>
+    <div  id="layout">
+
+        <div class="t-mian1C">
+            <input hidden id="msg" th:value="${msg}">
+            <div class="t-mianCon clearfloat" id="spu-list">
+
+                <div class="t-mainsku">
+                    <div>
+                        <img src="/images/me_icon.jpg" class="mt30">
+                        <p class="t-text" style="color: rgb(53, 212, 143);">
+                            用户管理
+                        </p>
+                    </div>
+                    <div class="skuShow ">
+                        <p class="t-miantit" style="color: rgb(53, 212, 143);"  th:text="${userName}">
+                            我
+                        </p>
+                        <div class="t-gang">
+                        </div>
+                        <a th:href="@{'/user/update?userId='+${userId}}" class="sku-mr" >修改个人信息</a>
+                        <a th:href="@{'/exam/queryGrades?userId='+${userId}}"  class="sku-mr" >查询成绩</a>
+                        <span th:if="${userIsAdmin eq '管理员'}">
+                            <a th:href="@{'/user/isAdmin?userId='+${userId}+'&userName='+${userName}+'&userIsAdmin='+${userIsAdmin}}" class="sku-mr" >后台管理</a>
+                        </span>
+
+                        <a href="/user/login" class="sku-mr" >退出</a>
+                    </div>
+                </div>
+
+
+                <div class="t-mainsku">
+                    <div>
+                        <img src="/images/exam_icon.jpg" class="mt30">
+                        <p class="t-text" style="color: rgb(53, 212, 143);">
+                            考试
+                        </p>
+                    </div>
+                    <div class="skuShow ">
+                        <p class="t-miantit" style="color: rgb(53, 212, 143);">
+                            考试
+                        </p>
+                        <div class="t-gang">
+                        </div>
+                        <a th:href="@{'/exam/showWritePaper?userId='+${userId}}" class="sku-mr" >模拟考试</a>
+                        <a href="/exam/simulate" class="sku-mr" >自测练习</a>
+                    </div>
+                </div>
+
+
+            </div>
+        </div>
+    </div>
+
+
+    <script src="/jquery.min.js"></script>
+
+    <script type="text/javascript">
+        var msg = document.getElementById("msg").value;
+        if (msg === "您没有此权限！"){
+            alert(msg);
+        }
+        alert(msg);
+    </script>
+</body>
+</html>

@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>试卷成绩</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+    <style type="text/css">
+        #layout_title{
+            margin-top: 50px;
+            margin-left: 620px;
+            font-size: 30px;
+            color: pink;
+        }
+        #layout_all{
+            margin-top: 50px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+
+    </style>
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div id="layout_title">
+        <span>
+            考试成绩
+        </span>
+        </div>
+        <div class="layui-form" id="layout_all">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                    <col width="100">
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>试卷</th>
+                    <th>成绩</th>
+                    <th>学生Id</th>
+                    <th>学生姓名</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="paperGrade : ${allGrades}">
+                    <td th:text="${paperGradeStat.count}"></td>
+                    <td th:text="${paperGrade.paperName}"></td>
+                    <td th:text="${paperGrade.paperGrade}"></td>
+                    <td th:text="${paperGrade.userId}"></td>
+                    <td th:text="${paperGrade.userName}"></td>
+
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+</body>
+</html>

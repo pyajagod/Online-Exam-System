@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="utf-8">
+    <title>layui</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+    <!-- 注意：如果你直接复制所有代码到本地，上述css路径需要改成你本地的 -->
+
+</head>
+<body>
+    <!--<fieldset class="layui-elem-field layui-field-title" style="margin-top: 20px;">-->
+        <!--<legend>默认表格</legend>-->
+    <!--</fieldset>-->
+    <form method="post" enctype="multipart/form-data">
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>学号</th>
+                    <th>姓名</th>
+                    <th>性别</th>
+                    <th>生日</th>
+                    <th>专业</th>
+                    <th>权限</th>
+                    <th>可执行操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="user : ${users}">
+                    <td th:text="${userStat.count}"></td>
+                    <td th:text="${user.userId}"></td>
+                    <td th:text="${user.userName}"></td>
+                    <td th:text="${user.userSex}"></td>
+                    <td th:text="${user.userBirthday}"></td>
+                    <td th:text="${user.userProfession}"></td>
+                    <td th:text="${user.userProsition}"></td>
+                    <td>
+                        <button class="layui-btn layui-btn-sm" onclick="change_prosition()">
+                            <a th:href="@{'/user/updateProtision?userId=' + ${user.userId} +  '&userName=' + ${user.userName}}" style="color: #00FFFF">修改权限</a>
+                        </button>
+                    </td>
+                </tr>
+
+                <tr style="text-align: center">
+                    <td colspan="8">
+                    <span th:if="${curPage <= 1}">
+                        首页
+                        上一页
+                    </span>
+
+                        <span th:if="${curPage > 1}">
+                        <a th:href="@{'/user/show'}">首页</a>
+                        <a th:href="@{'/user/show?curPage=' + ${curPage - 1}}">上一页</a>
+                    </span>
+
+                        <span th:if="${curPage == totalPages}">
+                        下一页
+                        尾页
+                    </span>
+
+                        <span th:if="${curPage < totalPages}">
+                        <a th:href="@{'/user/show?curPage=' + ${curPage + 1}}">下一页</a>
+                        <a th:href="@{'/user/show?curPage=' + ${totalPages}}">尾页</a>
+                    </span>
+                        <br/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+
+
+
+
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+    <script type="text/javascript">
+        function change_prosition() {
+           alert("你确定要修改此用户权限");
+        }
+    </script>
+
+</body>
+</html>

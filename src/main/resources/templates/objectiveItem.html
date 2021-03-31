@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>上传客观题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .sub_add{
+            margin: auto;
+            margin-top: 100px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/obj/add" method="post">
+        <input hidden name="userId" th:value="${userId}">
+        <div class="sub_add">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">问题描述：</label>
+                <div class="layui-input-block">
+                    <textarea name="objQues" placeholder="请输入问题" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">A:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescA" autocomplete="off" placeholder="请输入选项A描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">B:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescB" autocomplete="off" placeholder="请输入选项B描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">C:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescC" autocomplete="off" placeholder="请输入选项C描述" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">D:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescD" autocomplete="off" placeholder="请输入选项D描述" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">问题答案：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objAns" autocomplete="off" placeholder="请输入问题答案" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

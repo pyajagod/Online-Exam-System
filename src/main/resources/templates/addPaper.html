@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>新建试卷</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .sub_add{
+            margin: auto;
+            margin-top: 100px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/exam/addPapers" method="post">
+        <input hidden name="paperUploaderId" th:value="${userId}">
+        <div class="sub_add">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">试卷名称：</label>
+                <div class="layui-input-block">
+                    <textarea name="paperName" placeholder="请输入试卷名称" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即添加</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

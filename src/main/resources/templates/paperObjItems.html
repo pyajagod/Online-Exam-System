@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>客观题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>问题</th>
+                    <th>选项A</th>
+                    <th>选项B</th>
+                    <th>选项C</th>
+                    <th>选项D</th>
+                    <th>问题答案</th>
+                    <th>可执行操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="objItem : ${objItems}">
+                    <td th:text="${objItemStat.count}"></td>
+                    <td th:text="${objItem.objQues}"></td>
+                    <td th:text="${objItem.objDescA}"></td>
+                    <td th:text="${objItem.objDescB}"></td>
+                    <td th:text="${objItem.objDescC}"></td>
+                    <td th:text="${objItem.objDescD}"></td>
+                    <td th:text="${objItem.objAns}"></td>
+                    <td>
+                        <button class="layui-btn layui-btn-sm" onclick="change_ques()">
+                            <a th:href="@{'/exam/updateObj?objId='+${objItem.id}}" style="color: #00FFFF">修改</a>
+                        </button>
+                        <button class="layui-btn layui-btn-sm" onclick="delete_ques()">
+                            <a th:href="@{'/exam/deleteObj?itemId='+${objItem.itemId}+'&objId='+${objItem.id}}" style="color: #00FFFF">删除</a>
+                        </button>
+                    </td>
+                </tr>
+
+                </tbody>
+            </table>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+    <script type="text/javascript">
+        function change_ques() {
+            alert("你确定要修改此题？");
+        }
+        function delete_ques() {
+            alert("你确定要删除此题？");
+        }
+    </script>
+</body>
+</html>

@@ -1,0 +1,57 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bde.exam.mapper.SubMapper">
+    <insert id="addSub" parameterType="com.bde.exam.model.SubModel">
+      INSERT INTO exam_sub
+        (sub_desc, sub_ans, sub_uploader_id)
+      VALUES
+        (#{subDesc}, #{subAns}, #{subUploaderId});
+    </insert>
+
+    <delete id="deleteSub">
+      DELETE FROM exam_sub
+      WHERE id=#{id};
+    </delete>
+
+    <update id="updateSub" parameterType="com.bde.exam.model.SubModel">
+      UPDATE
+        exam_sub
+      SET sub_desc=#{subDesc}, sub_ans=#{subAns}
+      WHERE
+        id = #{id};
+    </update>
+
+    <select id="querySub" parameterType="java.lang.Integer" resultType="com.bde.exam.model.SubModel">
+      SELECT
+        id, sub_desc subDesc, sub_ans subAns, sub_uploader_id subUploaderId
+      FROM exam_sub
+      WHERE id = #{id}
+    </select>
+
+    <select id="querySubCounts" resultType="java.lang.Integer">
+      SELECT COUNT(*) FROM exam_sub;
+    </select>
+
+    <select id="querySubByPage" resultType="com.bde.exam.model.SubModel">
+        SELECT
+          id, sub_desc subDesc, sub_ans subAns, sub_uploader_id subUploaderId
+        FROM
+          exam_sub
+        limit #{startRow, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER};
+
+    </select>
+
+    <select id="querySubById" parameterType="java.util.Set" resultType="com.bde.exam.model.SubModel">
+        SELECT
+           id, sub_desc subDesc, sub_ans subAns, sub_uploader_id subUploaderId
+        FROM
+          exam_sub
+         <where>
+             <foreach collection="set" item="id" open="id in (" close=")" separator=",">
+                  ${id}
+             </foreach>
+         </where>
+    </select>
+</mapper>

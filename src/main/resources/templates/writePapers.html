@@ -1,0 +1,89 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>试题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+    <style type="text/css">
+        #layout_title{
+            margin-top: 50px;
+            margin-left: 665px;
+            font-size: 30px;
+            color: pink;
+        }
+        #layout_all{
+            margin-top: 50px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+
+    </style>
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+    <div id="layout_title">
+        <span>
+            试卷集
+        </span>
+    </div>
+    <div class="layui-form" id="layout_all">
+        <table class="layui-table">
+            <colgroup>
+                <col width="150">
+                <col width="150">
+                <col width="200">
+                <col>
+            </colgroup>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>试卷名称</th>
+                <th>主题人</th>
+                <th>考试栏</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${exams}">
+                <td th:text="${examStat.count}"></td>
+                <td th:text="${exam.paperName}"></td>
+                <td th:text="${exam.paperUploaderId}"></td>
+<!--                <td th:text="${subItem.subAns}"></td>-->
+                <td>
+                    <button class="layui-btn layui-btn-sm">
+                        <a th:href="@{'/exam/onlineTestt?itemId='+${exam.id}+'&userId='+${userId}}" style="color: #00FFFF">开始考试</a>
+                    </button>
+                </td>
+            </tr>
+
+
+            <tr style="text-align: center">
+                <td colspan="4">
+                            <span th:if="${curPage <= 1}">
+                                首页
+                                上一页
+                            </span>
+
+                    <span th:if="${curPage > 1}">
+                                <a th:href="@{'/exam/showWritePaper?userId='+${userId}}">首页</a>
+                                <a th:href="@{'/exam/showWritePaper?curPage='+${curPage - 1}+ '&userId=' + ${userId}}">上一页</a>
+                            </span>
+
+                    <span th:if="${curPage == totalPages}">
+                                下一页
+                                尾页
+                            </span>
+
+                    <span th:if="${curPage < totalPages}">
+                                <a th:href="@{'/exam/showWritePaper?curPage=' + ${curPage + 1} + '&userId=' + ${userId}}">下一页</a>
+                                <a th:href="@{'/exam/showWritePaper?curPage=' + ${totalPages} + '&userId=' + ${userId}}">尾页</a>
+                            </span>
+                    <br/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,185 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>登录页面</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .login_layout{
+            /*border: 1px solid red;*/
+            height: 440px;
+            width: 600px;
+            border: 8px solid #EEEEEE;
+            margin: auto;
+            margin-top: 120px;
+            background-color: white;
+        }
+
+        .login_right{
+            /*border: 1px solid green;*/
+            margin-top: 40px;
+            margin-left: 121px;
+            /*float: right;*/
+        }
+        .reg_fir{
+            font-size: 15px;
+        }
+        .reg_sec{
+            color: pink;
+        }
+        .login_title{
+            margin-top: 80px;
+            margin-left: 251px;
+            color: pink;
+            font-size: 30px;
+        }
+    </style>
+</head>
+<body>
+    <input hidden id="data" th:value="${data}">
+    <form action="/user/check" method="post">
+        <div class="login_layout">
+
+            <div class="login_title">
+                <p>欢迎登录</p>
+            </div>
+            <div class="login_right">
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="userId" name="userId" th:value="${userId}" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" onblur="checkId()">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" id="check_id">请输入学号</div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" id="userPwd" name="userPwd" th:value="${userPwd}" lay-verify="required" placeholder="请输入密码" autocomplete="off" class="layui-input" onblur="checkPwd()">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" id="check_pwd">请输入密码</div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <input type="submit" class="layui-btn" lay-filter="demo1" value="登录" onclick="login()"/>&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+                        <span class="reg_fir">未有账号？<a href="/user/register" class="reg_sec">立即注册</a></span>
+
+                    </div>
+                </div>
+            </div>
+
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+    <script>
+        var data = document.getElementById("data").value;
+        if (data === "用户名或密码错误") {
+            alert("用户名或密码错误");
+        }else if (data === "该用户不存在") {
+            alert("该用户不存在");
+        }
+    </script>
+    <script>
+
+        function checkId() {
+            var checkId = /^\d{8}$/;
+            var id = document.getElementById("userId").value;
+            if (checkId.test(id) === true){
+                document.getElementById("check_id").innerHTML = "<font color='#0F0'>√√√√√</font>";
+                return true;
+            }else {
+                document.getElementById("check_id").innerHTML = "<font color='#F00'>学号输入不规范！</font>";
+                return false;
+            }
+        }
+        function checkPwd() {
+            var userPwd = document.getElementById("userPwd").value;
+            if (userPwd !== null){
+                document.getElementById("check_pwd").innerHTML = "<font color='#0F0'>√√√√√</font>";
+                return true;
+            }else {
+                document.getElementById("check_pwd").innerHTML = "<font color='#F00'>密码不能为空</font>";
+                return false;
+            }
+        }
+        function login() {
+            if (checkId() && checkPwd()) {
+                return true;
+            }else {
+                alert("用户名或密码不能为空");
+                return false;
+            }
+        }
+    </script>
+
+    <script>
+        layui.use(['carousel', 'form'], function(){
+            var carousel = layui.carousel
+                ,form = layui.form;
+
+
+            //改变下时间间隔、动画类型、高度
+            carousel.render({
+                elem: '#test2'
+                ,interval: 1800
+                ,anim: 'fade'
+                ,height: '120px'
+            });
+
+            //设定各种参数
+            var ins3 = carousel.render({
+                elem: '#test3'
+            });
+            //图片轮播
+            carousel.render({
+                elem: '#test10'
+                ,width: '778px'
+                ,height: '440px'
+                ,interval: 5000
+            });
+
+            //事件
+            carousel.on('change(test4)', function(res){
+                console.log(res)
+            });
+
+            var $ = layui.$, active = {
+                set: function(othis){
+                    var THIS = 'layui-bg-normal'
+                        ,key = othis.data('key')
+                        ,options = {};
+
+                    othis.css('background-color', '#5FB878').siblings().removeAttr('style');
+                    options[key] = othis.data('value');
+                    ins3.reload(options);
+                }
+            };
+
+            //监听开关
+            form.on('switch(autoplay)', function(){
+                ins3.reload({
+                    autoplay: this.checked
+                });
+            });
+
+            $('.demoSet').on('keyup', function(){
+                var value = this.value
+                    ,options = {};
+                if(!/^\d+$/.test(value)) return;
+
+                options[this.name] = value;
+                ins3.reload(options);
+            });
+
+            //其它示例
+            $('.demoTest .layui-btn').on('click', function(){
+                var othis = $(this), type = othis.data('type');
+                active[type] ? active[type].call(this, othis) : '';
+            });
+        });
+    </script>
+</body>
+</html>

@@ -1,0 +1,175 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>simulations</title>
+    <link rel="stylesheet" href="/bootstrap/css/bootstrap.min.css">
+
+    <style type="text/css">
+
+        #exam_title{
+            margin-left: 280px;
+            font-size: 50px;
+            color: pink;
+
+        }
+
+        #exam_body{
+            width: 800px;
+            height: 1900px;
+            border: 8px solid #EEEEEE;
+            background-color: white;
+            margin: auto;
+            margin-top: 120px;
+        }
+
+    </style>
+</head>
+
+<body>
+    <input style="border: 0px none; width: 300px; color: #0C0C0C; float: right;" type="text" name="mss" id="mss" />
+    <div id="exam_body">
+        <input hidden id="userId" name="userId" th:value="${userId}">
+        <input hidden id="paperId" name="paperId" th:value="${paperId}">
+        <div id="exam_title">
+            <span th:text="${paperName}">
+            </span>
+        </div>
+        <form role="form" method="post">
+            <h3>一、主观题（每题5分，答错不得分）</h3>
+            <span th:each="obj : ${objs}">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${objStat.count}">题号</span>、
+                <label th:text="${obj.objQues}">问题描述</label>
+                <div class="radio">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;A、<label>
+                        <input type="radio" th:name="objAns+${objStat.count}" value="A" th:text="${obj.objDescA}">
+                    </label>
+                </div>
+                <div class="radio">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;B、<label>
+                        <input type="radio" th:name="objAns+${objStat.count}" value="B" th:text="${obj.objDescB}">
+                    </label>
+                </div>
+                <div class="radio">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;C、<label>
+                        <input type="radio" th:name="objAns+${objStat.count}" value="C" th:text="${obj.objDescC}">
+                    </label>
+                </div>
+                <div class="radio">
+                    &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;D、<label>
+                        <input type="radio" th:name="objAns+${objStat.count}" value="D" th:text="${obj.objDescD}">
+                    </label>
+                </div>
+
+            </span>
+
+            <h3>二、主观题（每题15分，按点得分）</h3>
+            <span th:each="sub : ${subs}">
+                &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;<span th:text="${subStat.count}">题号</span>、
+                <label th:text="${sub.subDesc}">问题描述</label>
+                <textarea class="form-control" th:id="subAns+${subStat.count}" th:name="subAns+${subStat.count}" style="margin-left: 70px; min-height: 100px;min-width: 200px;max-height: 800px; max-width: 700px;"></textarea>
+
+            </span>
+            <input type="submit" class="btn btn-success" onclick="checkAns()" value="立即提交" style="margin-left: 260px; margin-top: 40px"/>
+        </form>
+    </div>
+
+
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+    <script src="/bootstrap/js/bootstrap.min.js"></script>
+
+    <script type="application/javascript">
+        window.onload = function() {
+
+            daojishi();
+        }
+
+        var counttime = 60 * 90;//把90分钟化成总秒数
+
+        function daojishi() {
+            if (counttime >= 0) {
+                var seconds = counttime % 60;//得到剩余的秒数   89%60==29秒
+                var min = Math.floor(counttime / 60);//分钟
+                if (min >= 60) {
+                    var hour = Math.floor(min / 60);
+
+                    min = Math.floor((counttime - hour * 60 * 60) / 60);
+
+                    document.getElementById("mss").value = "距离考试结束还有" + hour + "小时" + min + "分"
+                        + seconds + "秒";
+                } else if (mis >= 1) {
+                    document.getElementById("mss").value = min + "分" + seconds
+                        + "秒数";
+                } else {
+                    document.getElementById("mss").value = seconds + "秒数";
+                }
+
+                counttime--;
+                vartt = window.setTimeout("daojishi()", 1000);
+            } else {
+                window.clearTimeout(vartt);
+                window.confirm("考试时间结束,请单击提交");
+                tijiao();
+
+            }
+        }
+
+        function tijiao() {
+            document.forms[0].submit();
+        }
+
+
+
+        function checkAns() {
+            var userId = $("#userId").val();
+            var paperId = $("#paperId").val();
+            var myAns1 = $(':radio[name="objAns1"]:checked').val();
+            var myAns2 = $(':radio[name="objAns2"]:checked').val();
+            var myAns3 = $(':radio[name="objAns3"]:checked').val();
+            var myAns4 = $(':radio[name="objAns4"]:checked').val();
+            var myAns5 = $(':radio[name="objAns5"]:checked').val();
+            var myAns6 = $(':radio[name="objAns6"]:checked').val();
+            var myAns7 = $(':radio[name="objAns7"]:checked').val();
+            var myAns8 = $(':radio[name="objAns8"]:checked').val();
+
+            var textAns1 = $("#subAns1").val();
+            var textAns2 = $("#subAns2").val();
+            var textAns3 = $("#subAns3").val();
+            var textAns4 = $("#subAns4").val();
+                $.ajax({
+                    url: "/exam/checkAns",
+                    type: "POST",
+                    // data: "username = jack&age=23"
+                    data: {
+                        "itemId": paperId,
+                        "objAnsA": myAns1,
+                        "objAnsB": myAns2,
+                        "objAnsC": myAns3,
+                        "objAnsD": myAns4,
+                        "objAnsE": myAns5,
+                        "objAnsF": myAns6,
+                        "objAnsG": myAns7,
+                        "objAnsH": myAns8,
+                        "subAnsA": textAns1,
+                        "subAnsB": textAns2,
+                        "subAnsC": textAns3,
+                        "subAnsD": textAns4,
+                        "gradeUploaderId": userId
+                    },
+                    dataType: "json",
+                    contentType: 'application/x-www-form-urlencoded; charset=UTF-8',
+                    success: function (data) {
+                        // alert(data);
+                        console.log(data)
+                        window.location.href='/exam/index?userId='+userId;
+                    },
+                });
+            // alert(myAns1 + "==" + myAns2 + "==" +myAns3 + "==" +myAns4 + "==" +myAns5 + "=="+ myAns6 + "==" +myAns7 + "==" +myAns8 + "==" +textAns1 + "===" + textAns2 + "===" + textAns3 + "===" + textAns4);
+
+        }
+
+    </script>
+</body>
+</html>

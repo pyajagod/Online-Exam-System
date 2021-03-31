@@ -1,0 +1,259 @@
+<!DOCTYPE html>
+<html lang="en" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>注册页面</title>
+
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .rg_layout{
+            width: 800px;
+            height: 700px;
+            border: 8px solid #EEEEEE;
+            background-color: white;
+
+            margin: auto;
+            margin-top: 70px;
+        }
+
+        .rg_title{
+            /*border: 1px solid red;*/
+            /*float: left;*/
+            margin: auto;
+            margin-left: 310px;
+            margin-right: 160px;
+        }
+
+        .rg_title > p:first-child{
+            color: #A6A6A6;
+            font-size: 20px;
+        }
+
+        /*.rg_title > p:last-child{*/
+            /*color: #A6A6A6;*/
+            /*font-size: 20px;*/
+        /*}*/
+
+        .rg_center{
+            /*border: 1px solid red;*/
+            /*float: ;*/
+            float: left;
+            width: 500px;
+            margin-top: 20px;
+            margin-left: 140px;
+        }
+
+        .rg_right{
+            /*border: 1px solid red;*/
+            float: right;
+            margin: 15px;
+        }
+
+        .rg_right > p:first-child{
+            /*color: #A6A6A6;*/
+            font-size: 15px;
+        }
+
+        .rg_right p a {
+            color: pink;
+        }
+    </style>
+</head>
+<body>
+    <span th:text="${msg}"> </span>
+    <div class="rg_layout">
+        <div class="rg_title">
+            <p>欢迎新用户注册</p>
+            <!--<p>USER REGISTER</p>-->
+        </div>
+        <div class="rg_center">
+            <form class="layui-form layui-form-pane" action="/user/add">
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">学号</label>
+                    <div class="layui-input-inline">
+                        <input type="text" id="userId" name="userId" lay-verify="required" placeholder="请输入学号" autocomplete="off" class="layui-input" onblur="checkUseId()">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" id="check_id" th:text="${error}">学号必须是八位数字</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">姓名</label>
+                    <div class="layui-input-inline">
+                        <input type="text" name="userName" lay-verify="required" placeholder="请输入姓名" autocomplete="off" class="layui-input">
+                    </div>
+
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="userPwd" id="pwd" placeholder="请输入密码" autocomplete="off" class="layui-input" onblur="checkPwd()">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" id="check_pwd_one">密码必须6到12位</div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">核对密码</label>
+                    <div class="layui-input-inline">
+                        <input type="password" name="password" id="pwd_again" placeholder="请核对密码" autocomplete="off" class="layui-input" onblur="checkPwdAgain()">
+                    </div>
+                    <div class="layui-form-mid layui-word-aux" id="check_pwd">两次输入密码必须一致</div>
+                </div>
+
+                <div class="layui-form-item">
+                    <div class="layui-inline">
+                        <label class="layui-form-label">生日</label>
+                        <div class="layui-input-block">
+                            <input type="date" name="userBirthday" id="date1" autocomplete="off" class="layui-input">
+                        </div>
+                    </div>
+
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">密码问题</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pwdQues" autocomplete="off" placeholder="请输入密码问题" class="layui-input">
+                    </div>
+                </div>
+                <div class="layui-form-item">
+                    <label class="layui-form-label">问题答案</label>
+                    <div class="layui-input-block">
+                        <input type="text" name="pwdAns" autocomplete="off" placeholder="请输入问题答案" class="layui-input">
+                    </div>
+                </div>
+
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">性别</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="userSex" value="男" title="男" checked="">
+                        <input type="radio" name="userSex" value="女" title="女">
+                        <!--<input type="radio" name="sex" value="禁" title="禁用" disabled="">-->
+                    </div>
+                </div>
+
+                <div class="layui-form-item" pane="">
+                    <label class="layui-form-label">权限</label>
+                    <div class="layui-input-block">
+                        <input type="radio" name="userProsition" value="管理员" title="管理员" disabled>
+                        <input type="radio" name="userProsition" value="普通用户" title="普通用户" checked>
+                        <!--<input type="radio" name="prosition" value="禁" title="禁用" disabled="">-->
+                    </div>
+                </div>
+
+                <div class="layui-form-item">
+                    <label class="layui-form-label">专业</label>
+                    <div class="layui-input-block">
+                        <select name="userProfession" lay-filter="aihao">
+                            <option value=""></option>
+                            <option value="软件工程" selected="">软件工程</option>
+                            <option value="网络工程">网络工程</option>
+                            <option value="大数据">大数据</option>
+                            <option value="云计算">云计算</option>
+                            <option value="物联网">物联网</option>
+                            <option value="区块链">区块链</option>
+                            <option value="人工智能">人工智能</option>
+                        </select>
+                    </div>
+                </div>
+
+
+                <div class="layui-form-item">
+                    <div class="layui-input-block">
+                        <button class="layui-btn" lay-submit="" lay-filter="demo1" onblur="checkAll()">立即注册</button>
+                        <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+        <div class="rg_right">
+            <p>已有账号？<a href="/user/login">立即登录</a></p>
+        </div>
+    </div>
+
+
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <script src="/jquery.min.js"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script type="text/javascript">
+        function checkUseId() {
+            var checkId = /^\d{8}$/;
+            var id = document.getElementById("userId").value;
+            if(checkId.test(id) === true){
+                document.getElementById("check_id").innerHTML = "<font color='#0F0'>√√√√√</font>";
+                return true;
+            }else {
+                document.getElementById("check_id").innerHTML = "<font color='#F00'>学号输入不规范！</font>";
+                return false;
+            }
+
+        }
+
+        function checkPwd() {
+            var checkPwd = /^.{6,12}$/;
+            var pwd = document.getElementById("pwd").value;
+            if (checkPwd.test(pwd) === true){
+                document.getElementById("check_pwd_one").innerHTML = "<font color='#0F0'>√√√√√</font>";
+                return true;
+            }else {
+                document.getElementById("check_pwd_one").innerHTML = "<font color='#F00'>密码输入不规范！</font>";
+                return false;
+            }
+        }
+
+        function checkPwdAgain() {
+            var pwd = document.getElementById("pwd").value;
+            var pwdAgain = document.getElementById("pwd_again").value;
+            if (pwd === pwdAgain && pwd !== null){
+                document.getElementById("check_pwd").innerHTML = "<font color='#0F0'>√√√√√</font>";
+                return true;
+            } else {
+                document.getElementById("check_pwd").innerHTML = "<font color='#F00'>两次密码不一致!</font>";
+                return false;
+            }
+        }
+
+        function checkAll() {
+            if (checkUseId() && checkPwd() && checkPwdAgain()){
+                alert("欢迎注册。。。");
+            }
+        }
+    </script>
+    <script>
+        layui.use(['form', 'layedit', 'laydate'], function(){
+            var form = layui.form
+                ,layer = layui.layer
+                ,layedit = layui.layedit
+                ,laydate = layui.laydate;
+
+            //日期
+            laydate.render({
+                elem: '#date'
+            });
+            laydate.render({
+                elem: '#date1'
+            });
+
+            //创建一个编辑器
+            var editIndex = layedit.build('LAY_demo_editor');
+
+            //自定义验证规则
+            form.verify({
+                title: function(value){
+                    if(value.length < 5){
+                        return '标题至少得5个字符啊';
+                    }
+                }
+                ,pass: [
+                    /^[\S]{6,12}$/
+                    ,'密码必须6到12位，且不能出现空格'
+                ]
+                ,content: function(value){
+                    layedit.sync(editIndex);
+                }
+            });
+
+        });
+    </script>
+
+</body>
+</html>

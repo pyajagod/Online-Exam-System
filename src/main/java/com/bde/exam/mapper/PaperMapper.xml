@@ -1,0 +1,184 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bde.exam.mapper.PaperMapper">
+
+    <insert id="addPaper" parameterType="com.bde.exam.model.ExamModel">
+        INSERT INTO
+            exam_paper
+        (paper_name, paper_uploader_id)
+        VALUES
+            (#{paperName}, #{paperUploaderId})
+    </insert>
+
+    <insert id="addPaperObj" parameterType="com.bde.exam.model.PaperObjModel">
+        INSERT INTO
+            paper_obj_items
+        (item_id, obj_ques, obj_desc_a, obj_desc_b, obj_desc_c, obj_desc_d, obj_ans)
+        VALUES
+            (#{itemId}, #{objQues}, #{objDescA}, #{objDescB}, #{objDescC}, #{objDescD}, #{objAns})
+    </insert>
+
+    <insert id="addPaperSub" parameterType="com.bde.exam.model.PaperSubModel">
+        INSERT INTO
+            paper_sub_items
+        (item_id, sub_desc, sub_ans)
+        VALUES
+            (#{itemId}, #{subDesc}, #{subAns})
+    </insert>
+
+    <insert id="addPaperGrade" parameterType="com.bde.exam.model.PaperGradeModel">
+        INSERT INTO
+            paper_grade
+        (item_id, item_grade, grade_uploader_id)
+        VALUES
+        (#{itemId}, #{itemGrade}, #{gradeUploaderId})
+    </insert>
+
+
+
+    <delete id="deletePaper" parameterType="java.lang.Integer">
+        DELETE FROM
+            exam_paper
+        WHERE id = #{itemId}
+    </delete>
+
+    <delete id="deletePaperObj" parameterType="java.lang.Integer">
+        DELETE FROM
+            paper_obj_items
+        WHERE
+            item_id = #{itemId}
+    </delete>
+
+    <delete id="deleteOneSub" parameterType="java.lang.Integer">
+        DELETE FROM
+            paper_sub_items
+        WHERE
+            id = #{id}
+    </delete>
+
+    <delete id="deleteOneObj" parameterType="java.lang.Integer">
+        DELETE FROM
+            paper_obj_items
+        WHERE
+            id = #{id}
+    </delete>
+
+    <delete id="deletePaperSub" parameterType="java.lang.Integer">
+        DELETE FROM
+            paper_sub_items
+        WHERE
+            item_id = #{itemId}
+    </delete>
+
+    <update id="updatePaper" parameterType="com.bde.exam.model.ExamModel">
+        UPDATE
+            exam_paper
+        SET
+            paper_name = #{paperName}
+        WHERE id = #{id}
+
+    </update>
+
+    <update id="updateOneObj" parameterType="com.bde.exam.model.PaperObjModel">
+        UPDATE
+            paper_obj_items
+        SET
+            obj_ques=#{objQues}, obj_desc_a=#{objDescA}, obj_desc_b=#{objDescB}, obj_desc_c=#{objDescC}, obj_desc_d=#{objDescD}, obj_ans=#{objAns}
+        WHERE id=#{id};
+
+    </update>
+
+    <update id="updateOneSub" parameterType="com.bde.exam.model.PaperSubModel">
+        UPDATE
+            paper_sub_items
+        SET
+            sub_desc=#{subDesc}, sub_ans=#{subAns}
+        WHERE
+            id = #{id};
+    </update>
+
+    <select id="queryPaperGrades" parameterType="java.lang.Integer" resultType="com.bde.exam.model.GradeModel">
+         SELECT
+	        paper_grade.`id` id, exam_paper.`paper_name` paperName, paper_grade.`item_grade` paperGrade, exam_user.`user_name` userName
+         FROM
+	        exam_paper, paper_grade, exam_user
+         WHERE
+	        paper_grade.`item_id` = exam_paper.`id` AND paper_grade.`grade_uploader_id` = exam_user.`user_id` AND paper_grade.`grade_uploader_id` = #{userId}
+    </select>
+
+    <select id="queryAllPaperGrades" parameterType="java.lang.Integer" resultType="com.bde.exam.model.GradeModel">
+         SELECT
+	        paper_grade.`id` id, exam_paper.`paper_name` paperName, paper_grade.`item_grade` paperGrade, exam_user.user_id userId, exam_user.`user_name` userName
+         FROM
+	        exam_paper, paper_grade, exam_user
+         WHERE
+	        paper_grade.`item_id` = exam_paper.`id` AND paper_grade.`grade_uploader_id` = exam_user.`user_id` AND paper_grade.`item_id` = #{ItemId};
+    </select>
+
+
+    <select id="queryPaperObjCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM paper_obj_items WHERE item_id = #{itemId};
+    </select>
+
+    <select id="queryPaperSubCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM paper_sub_items WHERE item_id = #{itemId};
+    </select>
+
+    <select id="queryPaperCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM exam_paper
+    </select>
+
+    <select id="queryOnePaper" parameterType="java.lang.Integer" resultType="com.bde.exam.model.ExamModel">
+        SELECT
+            id, paper_name paperName, paper_uploader_id paperUploaderId
+        FROM
+            exam_paper
+        WHERE id = #{itemId};
+    </select>
+
+    <select id="queryPapers" parameterType="java.util.Map" resultType="com.bde.exam.model.ExamModel">
+        SELECT
+            id, paper_name paperName, paper_uploader_id paperUploaderId
+        FROM
+            exam_paper
+        limit #{startRow, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER}
+    </select>
+
+    <select id="querySubs" parameterType="java.lang.Integer" resultType="com.bde.exam.model.PaperSubModel">
+        SELECT
+            id, item_id itemId, sub_desc subDesc, sub_ans subAns
+        FROM
+            paper_sub_items
+        WHERE
+            item_id = #{itemId};
+    </select>
+
+    <select id="queryObjs" parameterType="java.lang.Integer" resultType="com.bde.exam.model.PaperObjModel">
+        SELECT
+            id, item_id itemId, obj_ques objQues, obj_desc_a objDescA, obj_desc_b objDescB, obj_desc_c objDescC, obj_desc_d objDescD, obj_ans objAns
+        FROM
+            paper_obj_items
+        WHERE item_id = #{itemId};
+    </select>
+
+    <select id="queryOneSub" parameterType="java.lang.Integer" resultType="com.bde.exam.model.PaperSubModel">
+        SELECT
+            id, item_id itemId, sub_desc subDesc, sub_ans subAns
+        FROM
+            paper_sub_items
+        WHERE
+            id = #{Id};
+    </select>
+
+    <select id="queryOneObj" parameterType="java.lang.Integer" resultType="com.bde.exam.model.PaperObjModel">
+        SELECT
+            id, item_id itemId, obj_ques objQues, obj_desc_a objDescA, obj_desc_b objDescB, obj_desc_c objDescC, obj_desc_d objDescD, obj_ans objAns
+        FROM
+            paper_obj_items
+        WHERE id = #{id}
+
+    </select>
+
+</mapper>

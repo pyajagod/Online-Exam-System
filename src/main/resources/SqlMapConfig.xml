@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE configuration
+        PUBLIC "-//mybatis.org//DTD Config 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-config.dtd">
+<configuration>
+    <properties resource="db.properties" />
+    <settings>
+        <setting name="lazyLoadingEnabled" value="true"/>
+    </settings>
+    <!--配置别名-->
+    <typeAliases>
+        <!--<typeAlias type="com.bde.model.User" alias="user"></typeAlias>-->
+        <!--指定包名，别名就是类名，第一个小写-->
+        <package name="com.bde.exam.model"></package>
+    </typeAliases>
+    <environments default="development">
+        <environment id="development">
+            <transactionManager type="JDBC"/>
+            <dataSource type="POOLED">
+                <property name="driver" value="${driver}"/>
+                <property name="url" value="${url}"/>
+                <property name="username" value="${username}"/>
+                <property name="password" value="${password}"/>
+            </dataSource>
+        </environment>
+    </environments>
+    <mappers>
+        <!--<mapper resource="com/bde/sqlmap/User.xml"/>-->
+        <!--第一种：写映射文件的名字-->
+        <!--<mapper resource="com/bde/mapper/UserMapper.xml"></mapper>-->
+        <!--第二种：写类名-->
+        <!--<mapper class="com.bde.mapper.UserMapper"></mapper>-->
+        <!--第三种：可以写包名-->
+        <package name="com.bde.exam.mapper"></package>
+    </mappers>
+</configuration>

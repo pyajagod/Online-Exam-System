@@ -1,0 +1,70 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>上传客观题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .sub_add{
+            margin: auto;
+            margin-top: 100px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/exam/updateObjItem" method="post">
+        <input hidden name="id" th:value="${obj.id}" />
+        <input hidden name="itemId" th:value="${obj.itemId}" />
+        <div class="sub_add">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">问题描述：</label>
+                <div class="layui-input-block">
+                    <textarea name="objQues" th:text="${obj.objQues}" class="layui-textarea"></textarea>
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">A:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescA" autocomplete="off" th:value="${obj.objDescA}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">B:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescB" autocomplete="off" th:value="${obj.objDescB}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">C:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescC" autocomplete="off" th:value="${obj.objDescC}" class="layui-input">
+                </div>
+            </div>
+            <div class="layui-form-item">
+                <label class="layui-form-label">D:</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objDescD" autocomplete="off" th:value="${obj.objDescD}" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <label class="layui-form-label">问题答案：</label>
+                <div class="layui-input-block">
+                    <input type="text" name="objAns" autocomplete="off" th:value="${obj.objAns}" class="layui-input">
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <button class="layui-btn" lay-submit="" lay-filter="demo1">立即修改</button>
+                    <button type="reset" class="layui-btn layui-btn-primary">重置</button>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>所有试题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+</head>
+<body>
+<form method="post" enctype="multipart/form-data">
+    <div class="layui-form">
+        <table class="layui-table">
+            <colgroup>
+                <col width="20">
+                <col width="80">
+                <col width="150">
+                <col width="80">
+            </colgroup>
+            <thead>
+            <tr>
+                <th>序号</th>
+                <th>试卷名称</th>
+                <th>可执行操作</th>
+                <th>查看成绩</th>
+            </tr>
+            </thead>
+            <tbody>
+            <tr th:each="exam : ${exams}">
+                <td th:text="${examStat.count}"></td>
+                <td th:text="${exam.paperName}"></td>
+<!--                <td th:text="${subItem.subAns}"></td>-->
+                <td>
+                        <span th:if="${paperUploaderId eq exam.paperUploaderId}">
+                            <button class="layui-btn layui-btn-sm">
+                                <a th:href="@{'/exam/addSubs?itemId='+${exam.id}+'&userId='+${exam.paperUploaderId}}" style="color: #00FFFF">添加主观题</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm">
+                                <a th:href="@{'/exam/showSubs?itemId='+${exam.id}}" style="color: #00FFFF">所有主观题</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm">
+                                <a th:href="@{'/exam/addObjs?itemId='+${exam.id}+'&userId='+${exam.paperUploaderId}}" style="color: #00FFFF">添加客观题</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm">
+                                <a th:href="@{'/exam/showObjs?itemId='+${exam.id}}" style="color: #00FFFF">所有客观题</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm" onclick="change_ques()">
+                                <a th:href="@{'/exam/update?itemId='+${exam.id}+'&userId='+${exam.paperUploaderId}+'&paperDesc='+${exam.paperName}}" style="color: #00FFFF">修改</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm" onclick="delete_ques()">
+                                <a th:href="@{'/exam/delete?itemId='+${exam.id}+'&userId='+${exam.paperUploaderId}}" style="color: #00FFFF">删除</a>
+                            </button>
+                        </span>
+                </td>
+
+                <td>
+                    <button class="layui-btn layui-btn-sm">
+                        <a th:href="@{'/exam/queryAllGrades?itemId='+${exam.id}}" style="color: #00FFFF">查看</a>
+                    </button>
+                </td>
+            </tr>
+
+            <tr style="text-align: center">
+                <td colspan="4">
+                            <span th:if="${curPage <= 1}">
+                                首页
+                                上一页
+                            </span>
+
+                    <span th:if="${curPage > 1}">
+                                <a th:href="@{'/exam/show?userId='+${paperUploaderId}}">首页</a>
+                                <a th:href="@{'/exam/show?curPage=' + ${curPage - 1}+'&userId='+${paperUploaderId}}">上一页</a>
+                            </span>
+
+                    <span th:if="${curPage == totalPages}">
+                                下一页
+                                尾页
+                            </span>
+
+                    <span th:if="${curPage < totalPages}">
+                                <a th:href="@{'/exam/show?curPage=' + ${curPage + 1}+'&userId='+${paperUploaderId}}">下一页</a>
+                                <a th:href="@{'/exam/show?curPage=' + ${totalPages}+'&userId='+${paperUploaderId}}">尾页</a>
+                            </span>
+                    <br/>
+                </td>
+            </tr>
+            </tbody>
+        </table>
+    </div>
+</form>
+<script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>

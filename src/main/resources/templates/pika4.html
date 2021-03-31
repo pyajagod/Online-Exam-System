@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="/css/pika.css">
+    <title>皮卡丘</title>
+
+</head>
+<body>
+    <input hidden id="itemId" th:value="${itemId}">
+    <div class="container pika">
+        <div class="pika-head">
+            <div class="pika-head-face">
+                <div class="pika-eye pika-eye-left"></div>
+                <div class="pika-eye pika-eye-right"></div>
+                <div class="pika-nose"></div>
+                <div class="pika-mouth"></div>
+            </div>
+            <div class="pika-ear pika-ear-left"></div>
+            <div class="pika-ear pika-ear-right"></div>
+        </div>
+        <div class="pika-body">
+            <div class="pika-body-body"></div>
+            <div class="pika-arm pika-arm-left"></div>
+            <div class="pika-arm pika-arm-right"></div>
+            <div class="pika-leg pika-leg-left"></div>
+            <div class="pika-leg pika-leg-right"></div>
+            <div class="pika-tail"></div>
+            <div class="strings">
+                <div class="string"></div>
+                <div class="string"></div>
+            </div>
+        </div>
+        <div class="balloons">
+            <div class="balloon cyan">
+                <div class="string"></div>
+            </div>
+            <div class="balloon red">
+                <div class="string"></div>
+            </div>
+            <div class="balloon pink">
+                <div class="string"></div>
+            </div>
+            <div class="balloon blue">
+                <div class="string"></div>
+            </div>
+        </div>
+    </div>
+
+    <script type="text/javascript">
+        var time = 1;
+        var itemId = document.getElementById("itemId").value;
+        function Redirect(){
+            window.location = "/exam/showObjs?itemId="+itemId;
+        }
+        timer = setTimeout('Redirect()', time*1000);
+    </script>
+</body>
+</html>

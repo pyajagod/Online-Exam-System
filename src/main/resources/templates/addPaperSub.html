@@ -1,0 +1,50 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>上传主观题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css" media="all">
+    <style>
+        .ques_add{
+            margin: auto;
+            margin-top: 100px;
+            margin-left: 300px;
+            margin-right: 300px;
+        }
+    </style>
+</head>
+<body>
+    <form action="/exam/addSubsItems" method="post">
+        <input hidden name="userId" th:value="${userId}" />
+        <input hidden name="itemId" th:value="${itemId}" />
+        <div class="ques_add">
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">问题描述：</label>
+                <div class="layui-input-block">
+                    <textarea name="subDesc" placeholder="请输入问题" class="layui-textarea"></textarea>
+                </div>
+            </div>
+<!--            <input hidden id="userId" name="userId" th:value="${userId}">-->
+            <div class="layui-form-item layui-form-text">
+                <label class="layui-form-label">问题答案：</label>
+                <div class="layui-input-block">
+                    <textarea name="subAns" placeholder="请输入答案" class="layui-textarea"></textarea>
+                </div>
+            </div>
+
+            <div class="layui-form-item">
+                <div class="layui-input-block">
+                    <input id="addit" type="submit" class="layui-btn" lay-submit="" lay-filter="demo1" value="立即添加" />
+                    <input type="reset" class="layui-btn layui-btn-primary" value="重置" /></input>
+                </div>
+            </div>
+        </div>
+    </form>
+
+    <script src="/layui/layui.js" charset="utf-8"></script>
+    <!-- 注意：如果你直接复制所有代码到本地，上述js路径需要改成你本地的 -->
+    <script type="text/javascript">
+
+    </script>
+</body>
+</html>

@@ -1,0 +1,81 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper
+        PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN"
+        "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.bde.exam.mapper.ObjMapper">
+    <resultMap id="obj_result" type="com.bde.exam.model.ObjModel">
+        <id column="id" property="id" />
+        <result column="obj_ques" property="objQues" />
+        <result column="obj_desc_a" property="objDescA"/>
+        <result column="obj_desc_b" property="objDescB"/>
+        <result column="obj_desc_c" property="objDescC"/>
+        <result column="obj_desc_d" property="objDescD"/>
+        <result column="obj_ans" property="objAns" />
+        <result column="obj_uploader_id" property="objUploaderId" />
+    </resultMap>
+    <sql id="obj_items">
+        id,
+        obj_ques,
+        obj_desc_a,
+        obj_desc_b,
+        obj_desc_c,
+        obj_desc_d,
+        obj_ans,
+        obj_uploader_id
+    </sql>
+    <insert id="addObj" parameterType="com.bde.exam.model.ObjModel">
+        INSERT INTO exam_obj
+          (obj_ques, obj_desc_a, obj_desc_b, obj_desc_c, obj_desc_d, obj_ans, obj_uploader_id)
+        VALUES
+          (#{objQues}, #{objDescA}, #{objDescB}, #{objDescC}, #{objDescD}, #{objAns}, #{objUploaderId});
+    </insert>
+
+    <delete id="deleteObj" parameterType="java.lang.Integer">
+        DELETE FROM
+          exam_obj
+        WHERE
+          id = #{id};
+    </delete>
+
+    <update id="updateObj" parameterType="com.bde.exam.model.ObjModel">
+        UPDATE
+          exam_obj
+        SET
+          obj_ques=#{objQues}, obj_desc_a=#{objDescA}, obj_desc_b=#{objDescB}, obj_desc_c=#{objDescC}, obj_desc_d=#{objDescD}, obj_ans=#{objAns}
+        WHERE id=#{id};
+    </update>
+
+    <select id="queryObj" parameterType="java.lang.Integer" resultMap="obj_result">
+        SELECT
+          <include refid="obj_items"></include>
+        FROM
+          exam_obj
+        WHERE
+          id = #{id};
+    </select>
+
+    <select id="queryObjCounts" resultType="java.lang.Integer">
+        SELECT COUNT(*) FROM exam_obj;
+    </select>
+
+    <select id="queryObjByPage" parameterType="java.util.Map" resultMap="obj_result">
+        SELECT
+          <include refid="obj_items"></include>
+        FROM
+          exam_obj
+        limit #{startRow, jdbcType=INTEGER}, #{pageSize, jdbcType=INTEGER};
+
+    </select>
+
+    <select id="queryObjById" parameterType="java.util.Set" resultMap="obj_result">
+        SELECT
+          <include refid="obj_items"></include>
+        FROM
+          exam_obj
+        <where>
+            <foreach collection="set" item="id" open="id in (" close=")" separator=",">
+                ${id}
+            </foreach>
+        </where>
+    </select>
+</mapper>

@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en"  xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>主观题</title>
+    <link rel="stylesheet" href="/layui/css/layui.css"  media="all">
+</head>
+<body>
+    <form method="post" enctype="multipart/form-data">
+        <div class="layui-form">
+            <table class="layui-table">
+                <colgroup>
+                    <col width="150">
+                    <col width="150">
+                    <col width="200">
+                    <col>
+                </colgroup>
+                <thead>
+                <tr>
+                    <th>序号</th>
+                    <th>问题</th>
+                    <th>问题答案</th>
+                    <th>可执行操作</th>
+                </tr>
+                </thead>
+                <tbody>
+                <tr th:each="subItem : ${subItems}">
+                    <td th:text="${subItemStat.count}"></td>
+                    <td th:text="${subItem.subDesc}"></td>
+                    <td th:text="${subItem.subAns}"></td>
+                    <td>
+                        <span th:if="${subUploaderId eq subItem.subUploaderId}">
+                            <button class="layui-btn layui-btn-sm" onclick="change_ques()">
+                                <a th:href="@{'/sub/update?subId='+${subItem.id}}" style="color: #00FFFF">修改</a>
+                            </button>
+                            <button class="layui-btn layui-btn-sm" onclick="delete_ques()">
+                                <a th:href="@{'/sub/delete?subId='+${subItem.id}+'&userId='+${subItem.subUploaderId}}" style="color: #00FFFF">删除</a>
+                            </button>
+                        </span>
+                    </td>
+                </tr>
+
+                <tr style="text-align: center">
+                    <td colspan="4">
+                            <span th:if="${curPage <= 1}">
+                                首页
+                                上一页
+                            </span>
+
+                        <span th:if="${curPage > 1}">
+                                <a th:href="@{'/sub/show?userId='+${subUploaderId}}">首页</a>
+                                <a th:href="@{'/sub/show?curPage=' + ${curPage - 1}+'&userId='+${subUploaderId}}">上一页</a>
+                            </span>
+
+                        <span th:if="${curPage == totalPages}">
+                                下一页
+                                尾页
+                            </span>
+
+                        <span th:if="${curPage < totalPages}">
+                                <a th:href="@{'/sub/show?curPage=' + ${curPage + 1}+'&userId='+${subUploaderId}}">下一页</a>
+                                <a th:href="@{'/sub/show?curPage=' + ${totalPages}+'&userId='+${subUploaderId}}">尾页</a>
+                            </span>
+                        <br/>
+                    </td>
+                </tr>
+                </tbody>
+            </table>
+        </div>
+    </form>
+    <script src="/layui/layui.js" charset="utf-8"></script>
+</body>
+</html>
